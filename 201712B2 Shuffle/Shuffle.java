@@ -1,7 +1,13 @@
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Solution for USACO 2017 December Contest, Bronze Problem 2. The Bovine
+ * Shuffle http://www.usaco.org/index.php?page=viewproblem2&cpid=760
+ */
 public class Shuffle {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(Path.of("shuffle.in"));
@@ -19,12 +25,12 @@ public class Shuffle {
 
         sc.close();
 
-         for(int i = 0; i < 3; i++) {             
+        for (int i = 0; i < 3; i++) {
             String[] previous = new String[size];
-            
+
             for (int j = 0; j < size; j++) {
                 int k = rules[j] - 1;
-                previous[j] = cows[k]; 
+                previous[j] = cows[k];
             }
 
             cows = previous;
@@ -32,10 +38,10 @@ public class Shuffle {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter("shuffle.out"));
 
-        for(String s : cows) {
+        for (String s : cows) {
             writer.write(s + "\n");
         }
-        
+
         writer.close();
     }
 }

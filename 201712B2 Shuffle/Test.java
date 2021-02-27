@@ -1,11 +1,12 @@
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
-
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        for (int i = 1; i <=10; i++) {
+        for (int i = 1; i <= 10; i++) {
             String inputFile = "test/" + i + ".in";
             String outputFile = "test/" + i + ".out";
 
@@ -13,9 +14,9 @@ public class Test {
 
             Path source = Path.of(inputFile);
             Path target = Path.of("shuffle.in");
-         
+
             Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
-            
+
             Shuffle.main(null);
 
             Scanner sourceScanner = new Scanner(Path.of(outputFile));
@@ -24,7 +25,7 @@ public class Test {
             String sourceLine = sourceScanner.nextLine().trim();
             String targetLine = targetScanner.nextLine().trim();
 
-            while(!isEmpty(sourceLine) && !isEmpty(targetLine)) {
+            while (!isEmpty(sourceLine) && !isEmpty(targetLine)) {
                 if (!sourceLine.equals(targetLine)) {
                     System.out.println("failed!");
                     break;
