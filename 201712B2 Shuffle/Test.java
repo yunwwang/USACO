@@ -2,11 +2,12 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.Scanner;
 
+
 public class Test {
     public static void main(String[] args) throws IOException {
         for (int i = 1; i <=10; i++) {
-            String inputFile = i + ".in";
-            String outputFile = i + ".out";
+            String inputFile = "test/" + i + ".in";
+            String outputFile = "test/" + i + ".out";
 
             System.out.println("Testing " + inputFile + " ...");
 
