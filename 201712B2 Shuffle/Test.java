@@ -9,7 +9,7 @@ public class Test {
             String inputFile = "test/" + i + ".in";
             String outputFile = "test/" + i + ".out";
 
-            System.out.println("Testing " + inputFile + " ...");
+            System.out.print("Testing " + inputFile + " ... ");
 
             Path source = Path.of(inputFile);
             Path target = Path.of("shuffle.in");
@@ -26,7 +26,7 @@ public class Test {
 
             while(!isEmpty(sourceLine) && !isEmpty(targetLine)) {
                 if (!sourceLine.equals(targetLine)) {
-                    System.out.println("Test " + i + " failed");
+                    System.out.println("failed!");
                     break;
                 }
 
@@ -35,11 +35,13 @@ public class Test {
             }
 
             if (!isEmpty(sourceLine) || !isEmpty(targetLine)) {
-                System.out.println("Test " + i + " failed");
+                System.out.println("failed!");
             }
+
+            System.out.println("passed!");
         }
 
-        System.out.println("Pass");
+        System.out.println("Done");
     }
 
     private static boolean isEmpty(String s) {
