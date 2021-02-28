@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        String name = "shuffle";
+        String name = "traffic";
         for (int i = 1; i <= 10; i++) {
             String inputFile = "test/" + i + ".in";
             String outputFile = "test/" + i + ".out";
@@ -18,7 +18,7 @@ public class Test {
 
             Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
-            Shuffle.main(null);
+            Traffic.main(null);
 
             Scanner sourceScanner = new Scanner(Path.of(outputFile));
             Scanner targetScanner = new Scanner(Path.of(name + ".out"));
