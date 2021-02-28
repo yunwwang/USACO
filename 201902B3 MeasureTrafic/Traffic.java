@@ -68,8 +68,8 @@ class Sensor {
             this.high += s.high;
         } else if ((this.type.equals("before") && s.type.equals("on"))
                 || (this.type.equals("after") && s.type.equals("off"))) {
-            this.low = this.low > s.high ? this.low - s.high : 0;
-            this.high = this.high > s.low ? this.high - s.low : 0;
+            this.low = Math.max(this.low - s.high, 0);
+            this.high = Math.max(this.high - s.low, 0);
         }
     }
 }
