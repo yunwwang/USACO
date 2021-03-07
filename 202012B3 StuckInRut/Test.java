@@ -31,7 +31,7 @@ public class Test {
 
         System.setIn(new FileInputStream(inputFile));
         System.setOut(new PrintStream(bos));
-        Rut.main(null);
+        Rut2.main(null);
 
 
         Scanner sourceScanner = new Scanner(Path.of(outputFile));

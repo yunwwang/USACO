@@ -106,25 +106,12 @@ class Cow {
     public int y;
     public boolean blocked;
     public boolean infinite;
-    public int blockedBy;
     public int distance;
 
     public Cow(char direction, int x, int y) {
         this.direction = direction;
         this.x = this.initX = x;
         this.y = this.initY = y;
-    }
-
-    public void move(int step) {
-        if (this.blocked) {
-            return;
-        }
-
-        if (this.direction == 'E') {
-            this.x += step;
-        } else {
-            this.y += step;
-        }
     }
 
 }
