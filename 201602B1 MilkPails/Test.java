@@ -1,14 +1,12 @@
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        String name = "measurement";
+        String name = "pails";
 
         for (int i = 1; i <= 10; i++) {
             test(i, name);
@@ -23,22 +21,15 @@ public class Test {
 
         System.out.print("Testing " + inputFile + " ... ");
 
+        Path source = Path.of(inputFile);
+        Path target = Path.of(name + ".in");
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
-        InputStream stdin = System.in;
-        PrintStream stdout = System.out;
-
-        System.setIn(new FileInputStream(inputFile));
-        System.setOut(new PrintStream(bos));
-        Rut.main(null);
-
+        Pails.main(null);
 
         Scanner sourceScanner = new Scanner(Path.of(outputFile));
-        Scanner targetScanner = new Scanner(bos.toString());
-        bos.close();
-        System.setIn(stdin);
-        System.setOut(stdout);
+        Scanner targetScanner = new Scanner(Path.of(name + ".out"));
 
         String sourceLine = sourceScanner.nextLine().trim();
         String targetLine = targetScanner.nextLine().trim();
@@ -63,8 +54,6 @@ public class Test {
             }
         }
 
-        sourceScanner.close();
-        targetScanner.close();
     }
 
     private static boolean isEmpty(String s) {

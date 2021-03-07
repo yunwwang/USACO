@@ -11,26 +11,31 @@ public class Rut {
         for (int i = 0; i < length; i++) {
             cows[i] = new Cow(sc.next().charAt(0), sc.nextInt(), sc.nextInt());
         }
-        
-        sc.close();    
+
+        sc.close();
 
         while (true) {
-            for(Cow c : cows) {
+            for (Cow c : cows) {
                 if (!c.blocked) {
                     c.distance = Integer.MAX_VALUE;
                 }
             }
 
             for (int i = 0; i < length; i++) {
-                for (int j = i + 1; j < length; j++) {
-                    if (cows[i].direction == cows[j].direction) continue;                    
-                    
+                if (cows[i].direction != 'E')
+                    continue;
+
+                for (int j = 0; j < length; j++) {
+                    if (cows[j].direction != 'N')
+                        continue;
+
                     calculateDistance(cows[i], cows[j]);
                 }
             }
 
+            // Block the cow with minimum distance
             ArrayList<Cow> tobeBlocked = new ArrayList<Cow>();
-            for(Cow c : cows) {
+            for (Cow c : cows) {
                 if (c.blocked || c.infinite) {
                     continue;
                 }
@@ -45,7 +50,7 @@ public class Rut {
                 }
             }
 
-            for(Cow c: tobeBlocked) {
+            for (Cow c : tobeBlocked) {
                 c.blocked = true;
             }
 
@@ -57,11 +62,11 @@ public class Rut {
 
         }
 
-        for(Cow c : cows) {
+        for (Cow c : cows) {
             if (c.infinite) {
                 System.out.println("Infinity");
             } else {
-                System.out.println( c.distance);
+                System.out.println(c.distance);
             }
         }
     }
@@ -71,37 +76,27 @@ public class Rut {
             return;
         }
 
-        if (b.blocked && a.y > b.y + b.distance) {
-            return;
-        } 
-
-        if (a.blocked && b.x > a.x+a.distance) {
+        if (a.y > Math.max(b.distance, b.y + b.distance) || b.x > Math.max(a.distance, a.x + a.distance)) {
             return;
         }
 
-        if (a.direction == 'E') {
-            int x = b.x - a.x;
-            int y = a.y - b.y;
+        int dx = b.x - a.x;
+        int dy = a.y - b.y;
 
-            if (x < 0 || y < 0) {
-                return;
-            }
+        if (dx < 0 || dy < 0) {
+            return;
+        }
 
-            if (x > y) {
-                a.distance = Math.min(a.distance, x);
-            } else if (y > x) {
-                b.distance = Math.min(b.distance, y);
-            }
-        } else {
-            calculateDistance(b, a);
-        }    
+        if (dx > dy) {
+            a.distance = Math.min(a.distance, dx);
+        } else if (dy > dx) {
+            b.distance = Math.min(b.distance, dy);
+        }
     }
 }
 
 class Cow {
     public char direction;
-    public int initX;
-    public int initY;
     public int x;
     public int y;
     public boolean blocked;
@@ -110,8 +105,8 @@ class Cow {
 
     public Cow(char direction, int x, int y) {
         this.direction = direction;
-        this.x = this.initX = x;
-        this.y = this.initY = y;
+        this.x = x;
+        this.y = y;
     }
 
 }
