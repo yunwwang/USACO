@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Solution for USACO 2016 February Contest, Bronze Problem 1. Milk Pails
+ * http://www.usaco.org/index.php?page=viewproblem2&cpid=615
+ */
 public class Pails {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(Path.of("pails.in"));
