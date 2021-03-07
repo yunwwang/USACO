@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -11,38 +12,46 @@ public class Rut {
             cows[i] = new Cow(sc.next().charAt(0), sc.nextInt(), sc.nextInt());
         }
         
-        sc.close();
+        sc.close();    
 
-        int count = 0;
         while (true) {
-            int step = Integer.MAX_VALUE;
-            for (int i = 0; i < length && step > 1; i++) {
-                for (int j = i + i; j < length && step > 1; j++) {
-                    step = Math.min(step, calculateStep(cows[i], cows[j]));
+            for(Cow c : cows) {
+                if (!c.blocked) {
+                    c.distance = Integer.MAX_VALUE;
                 }
             }
 
-            for (Cow c : cows) {
-                c.move(step);
-            }
-
-            for (Cow c : cows) {
-                isBlockedOrInfinit(c, cows);
-            }
-
-            boolean flag = false;
-            for (Cow c : cows) {
-                if (!c.blocked && !c.infinite) {
-                    flag = true;
-                    break;
+            for (int i = 0; i < length; i++) {
+                for (int j = i + 1; j < length; j++) {
+                    if (cows[i].direction == cows[j].direction) continue;                    
+                    
+                    calculateDistance(cows[i], cows[j]);
                 }
             }
 
-            long blockedCount = Arrays.stream(cows).filter(c -> c.blocked).count();
-            long infinitCount = Arrays.stream(cows).filter(c -> c.infinite).count();
-            count++;
+            ArrayList<Cow> tobeBlocked = new ArrayList<Cow>();
+            for(Cow c : cows) {
+                if (c.blocked || c.infinite) {
+                    continue;
+                }
 
-            if (!flag) {
+                if (c.distance == Integer.MAX_VALUE) {
+                    c.infinite = true;
+                } else if (tobeBlocked.isEmpty() || c.distance == tobeBlocked.get(0).distance) {
+                    tobeBlocked.add(c);
+                } else if (c.distance < tobeBlocked.get(0).distance) {
+                    tobeBlocked.clear();
+                    tobeBlocked.add(c);
+                }
+            }
+
+            for(Cow c: tobeBlocked) {
+                c.blocked = true;
+            }
+
+            boolean flag = Arrays.stream(cows).allMatch(c -> c.blocked || c.infinite);
+
+            if (flag) {
                 break;
             }
 
@@ -52,77 +61,40 @@ public class Rut {
             if (c.infinite) {
                 System.out.println("Infinity");
             } else {
-                if (c.direction == 'E') {
-                    System.out.println( c.x - c.initX + 1);
-                } else {
-                    System.out.println(c.y - c.initY + 1);
-                }
+                System.out.println( c.distance);
             }
         }
     }
 
-    public static int calculateStep(Cow a, Cow b) {
-        if (a.direction == b.direction || (a.x == b.x && a.y == b.y) || (a.blocked && b.blocked)) {
-            return Integer.MAX_VALUE;
-        }
-
-        if (a.x == b.x) {
-            return Math.abs(a.y - b.y);
-        }
-        if (a.y == b.y){
-            return Math.abs(a.x - b.x);
-        }
-        
-        if (a.direction == 'E') {            
-            if (a.x > b.x && a.y < b.y) {
-                return Integer.MAX_VALUE;
-            }
-
-            if (a.blocked) {
-                return Math.abs(b.y - a.y);
-            }
-
-            if (b.blocked) {
-                return Math.abs(a.x - b.x);
-            }
-
-            return Math.min(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
-        }
-
-        return calculateStep(b, a);
-    }
-
-    public static void isBlockedOrInfinit(Cow a, Cow[] cows) {
-        if (a.blocked || a.infinite) {
+    public static void calculateDistance(Cow a, Cow b) {
+        if (a.x == b.x && a.y == b.y) {
             return;
         }
 
-        boolean infinit = true;
-        for (Cow b : cows) {
-            if (a.direction == b.direction) {
-                continue;
-            }
+        if (b.blocked && a.y > b.y + b.distance) {
+            return;
+        } 
 
-            if (a.direction == 'E' && b.initY < a.initY) {
-                if (b.x > a.x && (b.y > a.y || !b.blocked)) {
-                    infinit = false;
-                } else if (b.x == a.x && b.y > a.y) {
-                    a.move(-1);
-                    a.blocked = true;
-                }
-            } else if (a.direction == 'N' && b.initX< a.initX) {
-                if (b.y > a.y && (b.x > a.x || !b.blocked)) {
-                    infinit = false;
-                } else if (b.y == a.y && b.x > a.x) {
-                    a.move(-1);
-                    a.blocked = true;
-                }
-            }
+        if (a.blocked && b.x > a.x+a.distance) {
+            return;
         }
 
-        if (!a.blocked) {
-            a.infinite = infinit;
-        }
+        if (a.direction == 'E') {
+            int x = b.x - a.x;
+            int y = a.y - b.y;
+
+            if (x < 0 || y < 0) {
+                return;
+            }
+
+            if (x > y) {
+                a.distance = Math.min(a.distance, x);
+            } else if (y > x) {
+                b.distance = Math.min(b.distance, y);
+            }
+        } else {
+            calculateDistance(b, a);
+        }    
     }
 }
 
@@ -134,6 +106,8 @@ class Cow {
     public int y;
     public boolean blocked;
     public boolean infinite;
+    public int blockedBy;
+    public int distance;
 
     public Cow(char direction, int x, int y) {
         this.direction = direction;
@@ -152,4 +126,5 @@ class Cow {
             this.y += step;
         }
     }
+
 }
