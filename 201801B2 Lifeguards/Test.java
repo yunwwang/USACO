@@ -4,10 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
-/**
- * Solution for USACO 2018 January Contest, Bronze Problem 2. Lifeguards
- * http://www.usaco.org/index.php?page=viewproblem2&cpid=784
- */
 public class Test {
     public static void main(String[] args) throws IOException {
         String name = "lifeguards";

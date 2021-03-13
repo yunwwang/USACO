@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+/**
+ * Solution for USACO 2018 January Contest, Bronze Problem 2. Lifeguards
+ * http://www.usaco.org/index.php?page=viewproblem2&cpid=784
+ */
 public class Lifeguard {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(Path.of("lifeguards.in"));
