@@ -8,7 +8,7 @@ public class Test {
     public static void main(String[] args) throws IOException {
         String name = "tracing";
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 16; i++) {
             test(i, name);
         }
 
