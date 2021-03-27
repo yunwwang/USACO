@@ -85,7 +85,7 @@ public class App {
         ArrayList<String> answer = new ArrayList<>();
 
         for(String name: cows) {
-            Group g = findGroupInside(name, pos);
+            Group g = findGroup(name, pos);
 
             if (g != null) {
                 if (g.first.get(0).equals(name)) {
@@ -116,16 +116,6 @@ public class App {
     }
 
     private static Group findGroup(String name, ArrayList<Group> pos) {
-        for(Group group : pos) {
-            if (group.first.get(0).equals(name) || group.second.get(0).equals(name)){
-                return group;
-            }
-        }
-
-        return null;
-    } 
-
-    private static Group findGroupInside(String name, ArrayList<Group> pos) {
         for(Group g : pos) {
             for(String s : g.first) {
                 if (s.equals(name)) {
