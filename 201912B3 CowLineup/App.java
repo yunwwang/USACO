@@ -136,19 +136,6 @@ public class App {
 
         return null;
     }
-
-    // private static String[][] findCow(String name, ArrayList<String[]> pos) {
-    //     String[][] result = new String[2][];
-    //     for(String[] line : pos) {
-    //         if (line[0] == name){
-    //             result[0] = line;
-    //         } else if (line[line.length - 1] == name) {
-    //             result[1] = line;
-    //         }
-    //     }
-
-    //     return result[0].length > 0 ? result : null;
-    // } 
 }
 
 class Group{
